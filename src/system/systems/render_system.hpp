@@ -10,9 +10,7 @@ namespace ecs
     public:
         RenderSystem(Screen &scr) : screen{scr} {}
 
-        void update()
-        {
-        }
+        void update() {}
 
     private:
         Screen &screen;

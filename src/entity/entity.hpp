@@ -1,15 +1,10 @@
 #pragma once
 
 #include <tuple>
+#include <ientity.hpp>
 
 namespace ecs
 {
-
-    class IEntity
-    {
-    public:
-        virtual void update() = 0;
-    };
 
     template <class... Cmps>
     class Entity : public IEntity

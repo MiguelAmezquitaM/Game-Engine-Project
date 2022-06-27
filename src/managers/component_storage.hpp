@@ -1,6 +1,7 @@
 #pragma once
 
-#include <types.hpp>
+#include <vector>
+#include <tuple>
 
 namespace ecs
 {
@@ -8,12 +9,15 @@ namespace ecs
     class ComponentStorage
     {
     public:
+        template <typename T>
+        using Container_t = std::vector<T>;
+
         ComponentStorage() = default;
 
         ComponentStorage(const ComponentStorage &) = delete;
-        ComponentStorage(const ComponentStorage &&) = delete;
+        ComponentStorage(ComponentStorage &&) = delete;
         ComponentStorage &operator=(const ComponentStorage &) = delete;
-        ComponentStorage &operator=(const ComponentStorage &&) = delete;
+        ComponentStorage &operator=(ComponentStorage &&) = delete;
 
         template <class Comp, typename... Args>
         constexpr Comp &createComponent(Args &&...args) noexcept
@@ -24,7 +28,7 @@ namespace ecs
         template <class Comp>
         constexpr Comp &addComponent(Comp &&cmp) noexcept
         {
-            Container_t<Comp>& cmps = std::get<Container_t<Comp>>(m_components);
+            Container_t<Comp> &cmps = std::get<Container_t<Comp>>(m_components);
             cmps.push_back(cmp);
             return cmps.back();
         }

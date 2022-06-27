@@ -1,24 +1,26 @@
 #pragma once
 
 #include <vector>
-#include <entity.hpp>
-#include <component_storage.hpp>
+
 namespace ecs
 {
+    class IEntity;
 
     template <class ComponentStorage_t, class... Entities_t>
     class EntityManager
     {
     public:
+        template <typename T>
+        using Container_t = std::vector<T>;
         using EntitiesContainer_t = std::tuple<Container_t<Entities_t>...>;
         using IEntitiesContainer_t = Container_t<IEntity *>;
 
         explicit EntityManager() : m_component_storage{} {}
 
         EntityManager(const EntityManager &) = delete;
-        EntityManager(const EntityManager &&) = delete;
+        EntityManager(EntityManager &&) = delete;
         EntityManager &operator=(const EntityManager &) = delete;
-        EntityManager &operator=(const EntityManager &&) = delete;
+        EntityManager &operator=(EntityManager &&) = delete;
 
         template <class Ent, class ContainerEnt = Container_t<Ent>>
         constexpr void reserve(Size_t __s) noexcept
